@@ -18,54 +18,16 @@ export default function SearchAnimeWithMAL(props: { numberForResults: number; })
     };
 
     function queryOnChange(q: string) {
-        // if query is actually changed, rendered anime cards are cleared
-        debounce(() => {setQuery(q); setRenderedAc([])}, 2 * 1000)
+        debounce(() => setQuery(q), 2 * 1000)
     }
 
-    const [showAnimeDetails, setShowAnimeDetails] = useState(false)
-    const onClickShowDetails = () => {
-        setShowAnimeDetails(!showAnimeDetails)
-    }
-
-    const [readMoreSynopsis, setReadMoreSynopsis] = useState(false)
-    const handleReadMore = () => {
-        setReadMoreSynopsis(!readMoreSynopsis)
-    }
-
-    const [renderedAc, setRenderedAc] = useState<JSX.Element[]>([])
-
-    /**
-     * Render anime cards every 1 second
-     */
-    function renderAc() {
-        let liter = 0
-        let it = setInterval(() => {
-            console.log(baiList[liter])
-            console.log(renderedAc)
-            let baiEle = baiList[liter]
-            let ele = <AnimeImageCard
+    const animeCards = baiList.map(baiEle => 
+        <AnimeImageCard
                 key={baiEle.title}
                 image={baiEle.image}
                 title={baiEle.title}
-                malid={baiEle.malid}
-                showAnimeDetails={showAnimeDetails}
-                onClickShowDetails={onClickShowDetails}
-                readMoreSynopsis={readMoreSynopsis}
-                handleReadMore={handleReadMore} />
-            setRenderedAc(prevRAC => [...prevRAC, ele])
-            liter += 1
-            if (liter >= baiList.length) {
-                clearInterval(it)
-            }
-        }, 1 * 1000);
-    }
-
-    useEffect(() => {
-        if(baiList.length != 0){
-            renderAc()
-        }
-    }, [baiList])
-
+                malid={baiEle.malid} />
+        )
 
 
 
@@ -87,7 +49,7 @@ export default function SearchAnimeWithMAL(props: { numberForResults: number; })
                 }}>
                 {
                     baiList ?
-                        renderedAc :
+                        animeCards :
                         <p>No Image Available</p>
                 }
             </div>
