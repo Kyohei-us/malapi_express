@@ -1,10 +1,9 @@
+import useFetchAnimeInfo from "../hooks/useFetchAnimeInfo";
 import ReadMoreSynopsis from "./readMoreSynopsis";
-import { useState } from "react";
-import { Button } from "@material-ui/core";
 
-export default function AnimeDetails(props: { animeRes: any; readMoreSynopsis: boolean; }) {
-    const { animeRes, readMoreSynopsis } = props;
-    console.log(animeRes)
+export default function AnimeDetails(props: { malid: number; readMoreSynopsis: boolean; }) {
+    const { malid, readMoreSynopsis } = props;
+    const animeRes = useFetchAnimeInfo(malid);
 
     return (
         <>

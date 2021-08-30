@@ -24,16 +24,18 @@ export default function AnimeImageCard(props: {
     image: string;
     title: string;
     malid: number;
-    showAnimeDetails: boolean;
-    onClickShowDetails: Function;
-    readMoreSynopsis: boolean;
-    handleReadMore: Function;
 }) {
-    const { image, title, malid, showAnimeDetails, onClickShowDetails, readMoreSynopsis, handleReadMore } = props
+    const { image, title, malid } = props
     const classes = useStyles();
+    const [showAnimeDetails, setShowAnimeDetails] = useState(false)
+    const onClickShowDetails = () => {
+        setShowAnimeDetails(!showAnimeDetails)
+    }
 
-    const animeRes = useFetchAnimeInfo(malid);
-
+    const [readMoreSynopsis, setReadMoreSynopsis] = useState(false)
+    const handleReadMore = () => {
+        setReadMoreSynopsis(!readMoreSynopsis)
+    }
     return (
         <Card className={classes.root} >
             <CardActionArea>
@@ -48,7 +50,7 @@ export default function AnimeImageCard(props: {
                     {
                         showAnimeDetails ?
                             <Typography gutterBottom variant="h5" component="h4">
-                                <AnimeDetails animeRes={animeRes} readMoreSynopsis={readMoreSynopsis} />
+                                <AnimeDetails malid={malid} readMoreSynopsis={readMoreSynopsis} />
                             </Typography> :
                             <></>
                     }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios"
 import { basicAnimeInfo } from "../common/types";
+import { addcorsproxy } from "../utils/cors";
 
 /**
  * Search for anime by query
@@ -13,6 +14,7 @@ export default function useSearchAnime(query: string, numberToReturn: number): b
     const [baiList, setBaiList] = useState<basicAnimeInfo[]>([]);
 
     let url = `https://api.jikan.moe/v3/search/anime?q=${query}&page=1`
+    url = addcorsproxy(url)
 
     useEffect(() => {
         const result = async () => {
@@ -30,6 +32,7 @@ export default function useSearchAnime(query: string, numberToReturn: number): b
             }
             tmpBaiList = tmpBaiList.slice(0, numberToReturn < tmpBaiList.length ? numberToReturn : tmpBaiList.length)
             setBaiList(tmpBaiList)
+            console.log("anime is searched")
         }
         if (query.length >= 3) { result() } else { console.log("query is too short!") };
     }, [query])
