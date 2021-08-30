@@ -19,7 +19,7 @@ export default function useFetchAnimeInfo(malid: number): AxiosResponse | undefi
         }
 
         if(malid != -1) result();
-    }, [])
+    }, [malid])
 
     return response;
 }
