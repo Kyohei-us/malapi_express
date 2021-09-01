@@ -16,7 +16,7 @@
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.7.3",
     "material-ui-image": "^3.3.2",
-    "next": "11.1.0",
+    "next": "11.1.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "swr": "^1.0.0"
