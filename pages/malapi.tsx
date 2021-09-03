@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Head from "next/head";
 import SearchAnimeWithMAL from "../components/searchAnimeWithMAL";
+import ShowTop from "../components/showTop";
 
 export default function malapi() {
 
@@ -19,7 +20,7 @@ export default function malapi() {
                 <Link href="/">
                     <h2><a>Back to home</a></h2>
                 </Link>
-                <SearchAnimeWithMAL numberForResults={4} />
+                <SearchAnimeWithMAL numberForResults={10} />
             </div>
         </div>
     );

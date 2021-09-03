@@ -13,13 +13,12 @@ import { addcorsproxy } from "../utils/cors";
 export default function useSearchAnime(query: string, numberToReturn: number): basicAnimeInfo[] {
     const [baiList, setBaiList] = useState<basicAnimeInfo[]>([]);
 
-    let url = `https://api.jikan.moe/v3/search/anime?q=${query}&page=1`
-    url = addcorsproxy(url)
+    let baseURL = `https://malapiexpress.herokuapp.com` // https://api.jikan.moe/v3
+    let url = `${baseURL}/search/anime?q=${query}&page=1`
 
     useEffect(() => {
         const result = async () => {
-            console.log("searching for anime")
-            let response = await axios(url);
+            let response = await axios({url: url, method: 'get'});
             let tmpBaiList: basicAnimeInfo[] = []
             for (let i = 0; i < response.data["results"].length; i++) {
                 const element: any = response.data["results"][i];
