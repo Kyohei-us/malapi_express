@@ -3,3 +3,13 @@ export interface basicAnimeInfo {
     title: string;
     malid: number;
 }
+
+export interface topBasicAnimeInfo extends basicAnimeInfo {
+    rank: number;
+}
+
+export interface jikanTop {
+    type: string,
+    page: number,
+    subtype: string,
+}
