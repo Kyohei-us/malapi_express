@@ -17,7 +17,6 @@ export default function useFetchTopAnime(jikanTop: jikanTop){
             console.log("top is fetched")
             console.log(ret)
         }
-
         result();
     }, [])
 

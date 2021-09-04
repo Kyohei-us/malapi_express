@@ -13,3 +13,8 @@ export interface jikanTop {
     page: number,
     subtype: string,
 }
+
+export interface indexableArray {
+    [index: number]: JSX.Element;
+    length: number;
+}

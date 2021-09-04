@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react"
 import axios, { AxiosResponse } from "axios"
-import { addcorsproxy } from "../utils/cors"
 
 /**
  * Fetch detailed anime info
@@ -23,6 +22,7 @@ export default function useFetchAnimeInfo(malid: number): AxiosResponse | undefi
             let ret = await axios({url: url, method: 'get'});
             setResponse(ret);
             console.log("animeRes is fetched")
+            console.log(ret)
         }
 
         if(malid != -1) result();

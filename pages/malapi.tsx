@@ -11,7 +11,8 @@ export default function malapi() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: '#116466'
+            backgroundColor: '#116466',
+            minHeight: '100vh'
         }}>
             <div>
                 <Head>
