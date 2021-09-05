@@ -71,7 +71,7 @@ export default function SidewayMediaCard(props: {
           </Typography>
         </CardContent>
         <div className={classes.controls}>
-          <IconButton aria-label="previous" onClick={() => next(-1)} >
+          <IconButton aria-label="previous" onClick={() => next(-1)}>
             <NavigateNextIcon className={classes.mirror} />
           </IconButton>
           <IconButton aria-label="next" onClick={() => next(1)}>

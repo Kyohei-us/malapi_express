@@ -18,3 +18,16 @@ export interface indexableArray {
     [index: number]: JSX.Element;
     length: number;
 }
+
+export interface basicGenre {
+    mal_id: number;
+    type: string;
+    name: string;
+}
+
+export interface detailAnimeInfo extends basicAnimeInfo {
+    title_japanese: string;
+    trailer_url: string;
+    synopsis: string;
+    genres: basicGenre[];
+}

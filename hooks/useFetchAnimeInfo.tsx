@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react"
 import axios, { AxiosResponse } from "axios"
+import { detailAnimeInfo } from "../common/types";
 
 /**
  * Fetch detailed anime info
@@ -7,8 +8,17 @@ import axios, { AxiosResponse } from "axios"
  * @param malid 
  * @returns 
  */
-export default function useFetchAnimeInfo(malid: number): AxiosResponse | undefined{
-    const [response, setResponse] = useState<AxiosResponse>()
+export default function useFetchAnimeInfo(malid: number): detailAnimeInfo {
+    const [response, setResponse] = useState<AxiosResponse>();
+    const retDAI: detailAnimeInfo = {
+        title_japanese: response?.data.title_japanese,
+        trailer_url: response?.data.trailer_url,
+        synopsis: response?.data.synopsis,
+        genres: [],
+        image: response?.data.image_url,
+        title: response?.data.title,
+        malid: response?.data.mal_id
+    };
     
     let baseURL = `https://malapiexpress.herokuapp.com` // https://api.jikan.moe/v3
     let url = `${baseURL}/anime/${malid}`
@@ -28,5 +38,5 @@ export default function useFetchAnimeInfo(malid: number): AxiosResponse | undefi
         if(malid != -1) result();
     }, [malid])
 
-    return response;
+    return retDAI;
 }

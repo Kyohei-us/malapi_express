@@ -1,13 +1,12 @@
-import { useState } from "react";
-import { Button } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import AnimeDetails from "./animeDetails";
+import { useDispatch } from "react-redux";
+import { showSingleDetail } from "../store/actions";
 
 const useStyles = makeStyles({
   root: {
@@ -26,15 +25,8 @@ export default function AnimeImageCard(props: {
 }) {
   const { image, title, malid } = props;
   const classes = useStyles();
-  const [showAnimeDetails, setShowAnimeDetails] = useState(false);
-  const onClickShowDetails = () => {
-    setShowAnimeDetails(!showAnimeDetails);
-  };
 
-  const [readMoreSynopsis, setReadMoreSynopsis] = useState(false);
-  const handleReadMore = () => {
-    setReadMoreSynopsis(!readMoreSynopsis);
-  };
+  const dispatch = useDispatch();
 
   return (
     <Card className={classes.root}>
@@ -44,40 +36,16 @@ export default function AnimeImageCard(props: {
           <Typography gutterBottom variant="h5" component="h2">
             {title}
           </Typography>
-          {showAnimeDetails ? (
-            <Typography gutterBottom variant="h5" component="h4">
-              <AnimeDetails
-                malid={malid}
-                readMoreSynopsis={readMoreSynopsis}
-              />
-            </Typography>
-          ) : (
-            <></>
-          )}
         </CardContent>
       </CardActionArea>
       <CardActions>
         <Button
           size="small"
           color="primary"
-          onClick={() => onClickShowDetails()}
+          onClick={() => dispatch(showSingleDetail(malid))}
         >
-          {showAnimeDetails ? "Collapse details" : "Show details"}
+          Show More Detail
         </Button>
-        {showAnimeDetails ? (
-          <>
-            <Button
-              color="secondary"
-              onClick={() => {
-                handleReadMore();
-              }}
-            >
-              {readMoreSynopsis ? "Collapse synopsis" : "Read More"}
-            </Button>
-          </>
-        ) : (
-          <></>
-        )}
       </CardActions>
     </Card>
   );
