@@ -50,9 +50,14 @@ export default function SearchAnimeWithMAL(props: {
   }
 
   const animeCards = baiList.map((baiEle) => (
-    <Box my={2}>
+    <div
+      key={baiEle.malid}
+      style={{
+        margin: "16px",
+      }}
+    >
       <AnimeImageCard key={baiEle.title} bai={baiEle} />
-    </Box>
+    </div>
   ));
 
   const [numberOfAnimeToShow, setNumberOfAnimeToShow] = useState(1);
