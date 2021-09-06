@@ -5,7 +5,6 @@ import {
   CardActions,
   CardContent,
   CardMedia,
-  CircularProgress,
   createStyles,
   makeStyles,
   Theme,
@@ -15,22 +14,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { detailAnimeInfo } from "../common/types";
 import useFetchAnimeInfo from "../hooks/useFetchAnimeInfo";
 import { RootState } from "../store";
-import { openTrailerOverlay, singleDetailInfo } from "../store/actions";
+import {
+  openTrailerOverlay,
+  singleDetailInfo,
+} from "../store/action/singleDetailInfo";
 import { getYoutubeVideoID } from "../utils/youtubeURLtoEmbed";
 import AnimeSingleDetail from "./animeSingleDetail";
 import SearchAnimeWithMAL from "./searchAnimeWithMAL";
 import ShowTop from "./showTop";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
+    root: {
+      textAlign: "center",
+    },
     backdrop: {
       zIndex: theme.zIndex.drawer + 1,
       color: "#fff",
     },
-    root: {
+    trailerCard: {
       width: 500,
     },
-    media: {
+    trailerMedia: {
       height: 500,
     },
   })
@@ -38,30 +43,36 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function SearchOrDetail() {
   const classes = useStyles();
+
+  // read state from redux
   const showSingleDetailState = useSelector(
     (state: RootState) => state.showSingleDetail
   );
 
   const dai = useSelector((state: RootState) => state.singleDetailInfo);
 
+  // get detailAnimeInfo from custom hooks
   const detailAnimeInfo: detailAnimeInfo = useFetchAnimeInfo(
     showSingleDetailState.malidForDetail
   );
+
+  // declare dispatch function
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(singleDetailInfo(detailAnimeInfo));
   }, [detailAnimeInfo.title_japanese]);
 
-  const cm =
+  // render trail only if its url is fetched and watch trailer is clicked
+  const trailer =
     getYoutubeVideoID(dai.singleDetailInfo.trailer_url) &&
     dai.openTrailerOverlay ? (
-      <Card className={classes.root}>
+      <Card className={classes.trailerCard}>
         <CardActionArea>
           <CardMedia
             component="iframe"
             src={`${dai.singleDetailInfo.trailer_url}`}
-            className={classes.media}
+            className={classes.trailerMedia}
           />
         </CardActionArea>
         <CardContent></CardContent>
@@ -71,6 +82,7 @@ export default function SearchOrDetail() {
       <></>
     );
 
+  // show detail for singlee work (anime, manga)
   const singleDetail = (
     <>
       <AnimeSingleDetail dai={dai.singleDetailInfo} />
@@ -79,13 +91,13 @@ export default function SearchOrDetail() {
         className={classes.backdrop}
         onClick={() => dispatch(openTrailerOverlay())}
       >
-        {cm}
+        {trailer}
       </Backdrop>
     </>
   );
 
   return (
-    <>
+    <div className={classes.root}>
       {showSingleDetailState.showSingleDetail ? (
         singleDetail
       ) : (
@@ -94,6 +106,6 @@ export default function SearchOrDetail() {
           <SearchAnimeWithMAL numberForResults={10} />
         </>
       )}
-    </>
+    </div>
   );
 }

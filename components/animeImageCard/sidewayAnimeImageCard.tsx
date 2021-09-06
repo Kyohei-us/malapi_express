@@ -1,19 +1,20 @@
-import React from "react";
-import {
-  Theme,
-  createStyles,
-  makeStyles,
-  useTheme,
-} from "@material-ui/core/styles";
+import { Button } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import IconButton from "@material-ui/core/IconButton";
+import {
+  createStyles,
+  makeStyles,
+  Theme,
+  useTheme,
+} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import SkipNextIcon from "@material-ui/icons/SkipNext";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { basicAnimeInfo } from "../../common/types";
+import { showSingleDetail } from "../../store/action/showSingleDetail";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,25 +50,20 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function SidewayMediaCard(props: {
-  image: string;
-  title: string;
-  malid: number;
-  rank: number;
+  bai: basicAnimeInfo;
   next: Function;
 }) {
-  const { image, title, malid, rank, next } = props;
+  const { bai, next } = props;
   const classes = useStyles();
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   return (
     <Card className={classes.root}>
       <div className={classes.details}>
         <CardContent className={classes.content}>
           <Typography component="h5" variant="h5">
-            {title}
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            {rank}
+            {bai.title}
           </Typography>
         </CardContent>
         <div className={classes.controls}>
@@ -77,11 +73,18 @@ export default function SidewayMediaCard(props: {
           <IconButton aria-label="next" onClick={() => next(1)}>
             <NavigateNextIcon />
           </IconButton>
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => dispatch(showSingleDetail(bai.malid))}
+          >
+            Show More Detail
+          </Button>
         </div>
       </div>
       <CardMedia
         className={classes.cover}
-        image={image}
+        image={bai.image}
         title="Live from space album cover"
       />
     </Card>

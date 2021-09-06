@@ -1,6 +1,6 @@
-import React from "react";
-import Link from "next/link";
 import Head from "next/head";
+import Link from "next/link";
+import React from "react";
 import SearchOrDetail from "../components/searchOrDetail";
 
 export default function malapi() {
@@ -10,6 +10,7 @@ export default function malapi() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        textAlign: "center",
         backgroundColor: "#116466",
         minHeight: "100vh",
       }}
@@ -23,7 +24,6 @@ export default function malapi() {
             <a>Back to home</a>
           </h2>
         </Link>
-        {/* <SearchAnimeWithMAL numberForResults={10} /> */}
         <SearchOrDetail />
       </div>
     </div>

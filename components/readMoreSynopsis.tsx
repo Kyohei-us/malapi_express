@@ -9,5 +9,5 @@ export default function ReadMoreSynopsis(props: {
   const first10Words = paragraphSplitByWord.slice(0, 10);
   const turnBackToString = first10Words.join(" ");
 
-  return <p>{readMore ? paragraph : turnBackToString}</p>;
+  return <div>{readMore ? paragraph : turnBackToString}</div>;
 }

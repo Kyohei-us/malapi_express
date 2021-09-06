@@ -1,9 +1,6 @@
-import {
-  detailActionTypes,
-  myActionTypes,
-  ShowSingleDetail,
-  SingleDetailInfo,
-} from "./actions";
+import { SearchByQuery, searchByQueryTypes } from "./action/searchByQuery";
+import { myActionTypes, ShowSingleDetail } from "./action/showSingleDetail";
+import { detailActionTypes, SingleDetailInfo } from "./action/singleDetailInfo";
 
 const initialState: ShowSingleDetail = {
   showSingleDetail: false,
@@ -21,6 +18,10 @@ const initialStateDetail: SingleDetailInfo = {
     genres: [],
   },
   openTrailerOverlay: false,
+};
+
+const initialStateSearchByQuery: SearchByQuery = {
+  query: "",
 };
 
 export const reducer = (state = initialState, action: myActionTypes) => {
@@ -54,6 +55,20 @@ export const detailReducer = (
       return {
         singleDetailInfo: initialStateDetail.singleDetailInfo,
         openTrailerOverlay: initialStateDetail.openTrailerOverlay,
+      };
+    default:
+      return state;
+  }
+};
+
+export const searchByQueryReducer = (
+  state = initialStateSearchByQuery,
+  action: searchByQueryTypes
+): SearchByQuery => {
+  switch (action.type) {
+    case "SEARCHBYQUERY":
+      return {
+        query: action.payload,
       };
     default:
       return state;

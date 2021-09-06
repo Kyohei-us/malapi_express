@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { basicAnimeInfo } from "../common/types";
-import { addcorsproxy } from "../utils/cors";
 
 /**
  * Search for anime by query

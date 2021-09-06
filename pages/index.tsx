@@ -1,8 +1,9 @@
-import Link from "next/link";
 import Head from "next/head";
-import ShowTop from "../components/showTop";
+import Link from "next/link";
+import React from "react";
+import MyAppBar from "../components/myAppBar";
+import SearchAnimeWithAnilist from "../components/searchAnimeWithAnilist";
 import styles from "../styles/Home.module.css";
-import SidewayMediaCard from "../components/sidewayMediaCard";
 
 const Home = () => {
   return (
@@ -23,9 +24,12 @@ const Home = () => {
         </Head>
 
         <main className={styles.main}>
+          <MyAppBar />
           <Link href="/malapi">
-            <h2>to malapi</h2>
+            <h2>Click here and Search Anime!</h2>
           </Link>
+          <SearchAnimeWithAnilist />
+          {/* <GetDetailWithAnilist /> */}
         </main>
       </div>
     </div>

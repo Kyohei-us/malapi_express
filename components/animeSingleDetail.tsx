@@ -10,20 +10,17 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import { useDispatch } from "react-redux";
 import { detailAnimeInfo } from "../common/types";
-import {
-  openTrailerOverlay,
-  resetDAI,
-  showSingleDetail,
-  singleDetailInfo,
-} from "../store/actions";
+import { showSingleDetail } from "../store/action/showSingleDetail";
+import { openTrailerOverlay, resetDAI } from "../store/action/singleDetailInfo";
 import { getYoutubeVideoID } from "../utils/youtubeURLtoEmbed";
 
 const useStyles = makeStyles({
   root: {
-    width: 500,
+    width: "90%",
+    margin: "auto",
   },
   media: {
-    height: 500,
+    // height: 500,
   },
 });
 

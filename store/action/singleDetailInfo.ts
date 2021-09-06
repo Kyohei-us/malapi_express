@@ -1,34 +1,11 @@
-export const ActionTypes = {
-  showSingleDetail: "SHOWSINGLEDETAIL",
-  singleDetailInfo: "SINGLEDETAILINFO",
-  openTrailerOverlay: "OPENTRAILEROVERLAY",
-  resetDAI: "RESETDAI",
-};
-
-export type ShowSingleDetail = {
-  showSingleDetail: boolean;
-  malidForDetail: number;
-};
-
 export type SingleDetailInfo = {
   singleDetailInfo: detailAnimeInfo;
   openTrailerOverlay: boolean;
 };
 
 import { Action } from "redux";
-import { detailAnimeInfo } from "../common/types";
-
-interface showSingleDetail extends Action {
-  type: typeof ActionTypes.showSingleDetail;
-  payload: number;
-}
-
-export const showSingleDetail = (payload: number) => {
-  return {
-    type: ActionTypes.showSingleDetail,
-    payload: payload,
-  };
-};
+import { detailAnimeInfo } from "../../common/types";
+import { ActionTypes } from "./actions";
 
 interface singleDetailInfo extends Action {
   type: typeof ActionTypes.singleDetailInfo;
@@ -64,7 +41,6 @@ export const resetDAI = () => {
   };
 };
 
-export type myActionTypes = showSingleDetail;
 export type detailActionTypes =
   | singleDetailInfo
   | openTrailerOverlay

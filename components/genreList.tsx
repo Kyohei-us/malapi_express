@@ -1,6 +1,6 @@
 import { basicAnimeInfo } from "../common/types";
 import useFetchGenre from "../hooks/useFetchGenre";
-import AnimeImageCard from "./animeImageCard";
+import AnimeImageCard from "./animeImageCard/animeImageCard";
 
 export default function GenreList(props: { genre_id: number }) {
   const { genre_id } = props;
