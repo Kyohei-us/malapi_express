@@ -59,10 +59,6 @@ export default function SearchOrDetail() {
   // declare dispatch function
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(singleDetailInfo(detailAnimeInfo));
-  }, [detailAnimeInfo.title_japanese]);
-
   // render trail only if its url is fetched and watch trailer is clicked
   const trailer =
     getYoutubeVideoID(dai.singleDetailInfo.trailer_url) &&
