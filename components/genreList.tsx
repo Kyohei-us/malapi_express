@@ -21,11 +21,7 @@ export default function GenreList(props: { genre_id: number }) {
   return (
     <div>
       {baiList ? (
-        <AnimeImageCard
-          title={baiList[0].title}
-          image={baiList[0].image}
-          malid={baiList[0].malid}
-        />
+        <AnimeImageCard bai={baiList[0]} />
       ) : (
         <div>Anime Card comes here</div>
       )}
