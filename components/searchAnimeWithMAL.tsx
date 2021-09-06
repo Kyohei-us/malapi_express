@@ -2,17 +2,38 @@
 import React, { useState, useEffect } from "react";
 import useSearchAnime from "../hooks/useSearchAnime";
 import {
+  Box,
+  createStyles,
   InputAdornment,
+  makeStyles,
   Slider,
   TextField,
+  Theme,
   Typography,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
-import AnimeImageCard from "./animeImageCard";
+import AnimeImageCard from "./animeImageCard/animeImageCard";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    sliderSearchResult: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      flexDirection: "column",
+      padding: "50px",
+      backgroundColor: "#116466",
+    },
+    root: {
+      textAlign: "center",
+    },
+  })
+);
 
 export default function SearchAnimeWithMAL(props: {
   numberForResults: number;
 }) {
+  const classes = useStyles();
   const { numberForResults } = props;
   const [query, setQuery] = useState("");
 
@@ -29,12 +50,9 @@ export default function SearchAnimeWithMAL(props: {
   }
 
   const animeCards = baiList.map((baiEle) => (
-    <AnimeImageCard
-      key={baiEle.title}
-      image={baiEle.image}
-      title={baiEle.title}
-      malid={baiEle.malid}
-    />
+    <Box my={2}>
+      <AnimeImageCard key={baiEle.title} bai={baiEle} />
+    </Box>
   ));
 
   const [numberOfAnimeToShow, setNumberOfAnimeToShow] = useState(1);
@@ -43,7 +61,7 @@ export default function SearchAnimeWithMAL(props: {
   };
 
   return (
-    <>
+    <Box className={classes.root}>
       <TextField
         type="search"
         placeholder="type anime name"
@@ -56,16 +74,7 @@ export default function SearchAnimeWithMAL(props: {
           ),
         }}
       />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          padding: "50px",
-          backgroundColor: "#116466",
-        }}
-      >
+      <div className={classes.sliderSearchResult}>
         <Typography id="discrete-slider" gutterBottom>
           Number of results to show
         </Typography>
@@ -91,6 +100,6 @@ export default function SearchAnimeWithMAL(props: {
           <p>No Image Available</p>
         )}
       </div>
-    </>
+    </Box>
   );
 }
