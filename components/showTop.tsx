@@ -1,28 +1,25 @@
-import { Box, Button, Theme, Typography } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/styles";
+import { Box, Button, Theme, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { jikanTop, topBasicAnimeInfo } from "../common/types";
 import useFetchTopAnime from "../hooks/useFetchTopAnime";
 import AnimeImageCardWrapper from "./animeImageCard/animeImageCardWrapper";
 import SidewayMediaCardWrapper from "./animeImageCard/sidewayAnimeImageCardWrapper";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    root: {
-      maxWidth: "90vw",
-    },
-    rowFlex: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      flexDirection: "row",
-    },
-  })
-);
+// const useStyles = makeStyles((theme) =>
+//   createStyles({
+//     root: {
+//       maxWidth: "90vw",
+//     },
+//     rowFlex: {
+//       display: "flex",
+//       justifyContent: "center",
+//       alignItems: "center",
+//       flexDirection: "row",
+//     },
+//   })
+// );
 
 export default function ShowTop() {
-  const classes = useStyles();
-
   const topPopAnime: jikanTop = {
     type: "anime",
     page: 1,
@@ -47,8 +44,8 @@ export default function ShowTop() {
 
   const [showAll, setShowAll] = useState(false);
   return (
-    <Box className={classes.root}>
-      <Box className={classes.rowFlex} m={2}>
+    <Box>
+      <Box m={2}>
         <Box m={2}>
           <Typography variant="h4">Top Anime</Typography>
         </Box>

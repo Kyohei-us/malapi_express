@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { Box, TextField } from "@material-ui/core";
+import { Box, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AnimeData, GET_ANIME, MediaVars } from "../src/queries/getAnime";

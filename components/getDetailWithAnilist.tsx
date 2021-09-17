@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { TextField } from "@material-ui/core";
+import { TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { GET_DETAIL } from "../src/queries/getDetail";
 import { Media } from "../src/types";

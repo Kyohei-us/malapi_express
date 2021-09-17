@@ -8,7 +8,7 @@ import {
   createStyles,
   makeStyles,
   Theme,
-} from "@material-ui/core";
+} from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { detailAnimeInfo } from "../common/types";
@@ -23,27 +23,25 @@ import AnimeSingleDetail from "./animeSingleDetail";
 import SearchAnimeWithMAL from "./searchAnimeWithMAL";
 import ShowTop from "./showTop";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    root: {
-      textAlign: "center",
-    },
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      color: "#fff",
-    },
-    trailerCard: {
-      width: 500,
-    },
-    trailerMedia: {
-      height: 500,
-    },
-  })
-);
+// const useStyles = makeStyles((theme) =>
+//   createStyles({
+//     root: {
+//       textAlign: "center",
+//     },
+//     backdrop: {
+//       zIndex: theme.zIndex.drawer + 1,
+//       color: "#fff",
+//     },
+//     trailerCard: {
+//       width: 500,
+//     },
+//     trailerMedia: {
+//       height: 500,
+//     },
+//   })
+// );
 
 export default function SearchOrDetail() {
-  const classes = useStyles();
-
   // read state from redux
   const showSingleDetailState = useSelector(
     (state: RootState) => state.showSingleDetail
@@ -63,12 +61,11 @@ export default function SearchOrDetail() {
   const trailer =
     getYoutubeVideoID(dai.singleDetailInfo.trailer_url) &&
     dai.openTrailerOverlay ? (
-      <Card className={classes.trailerCard}>
+      <Card>
         <CardActionArea>
           <CardMedia
             component="iframe"
             src={`${dai.singleDetailInfo.trailer_url}`}
-            className={classes.trailerMedia}
           />
         </CardActionArea>
         <CardContent></CardContent>
@@ -84,7 +81,6 @@ export default function SearchOrDetail() {
       <AnimeSingleDetail dai={dai.singleDetailInfo} />
       <Backdrop
         open={dai.openTrailerOverlay}
-        className={classes.backdrop}
         onClick={() => dispatch(openTrailerOverlay())}
       >
         {trailer}
@@ -93,7 +89,7 @@ export default function SearchOrDetail() {
   );
 
   return (
-    <div className={classes.root}>
+    <div>
       {showSingleDetailState.showSingleDetail ? (
         singleDetail
       ) : (

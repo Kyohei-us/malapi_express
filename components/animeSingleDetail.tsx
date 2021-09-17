@@ -1,31 +1,19 @@
-import {
-  Button,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Typography,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
 import { useDispatch } from "react-redux";
 import { detailAnimeInfo } from "../common/types";
 import { showSingleDetail } from "../store/action/showSingleDetail";
 import { openTrailerOverlay, resetDAI } from "../store/action/singleDetailInfo";
 import { getYoutubeVideoID } from "../utils/youtubeURLtoEmbed";
-
-const useStyles = makeStyles({
-  root: {
-    width: "90%",
-    margin: "auto",
-  },
-  media: {
-    // height: 500,
-  },
-});
+import {
+  Card,
+  CardMedia,
+  CardActionArea,
+  CardContent,
+  Typography,
+  CardActions,
+  Button,
+} from "@mui/material";
 
 export default function AnimeSingleDetail(props: { dai: detailAnimeInfo }) {
-  const classes = useStyles();
   const { dai } = props;
   const dispatch = useDispatch();
 
@@ -35,7 +23,6 @@ export default function AnimeSingleDetail(props: { dai: detailAnimeInfo }) {
       src={`https://img.youtube.com/vi/${getYoutubeVideoID(
         dai.trailer_url
       )}/0.jpg`}
-      className={classes.media}
     />
   ) : (
     <></>
@@ -43,7 +30,7 @@ export default function AnimeSingleDetail(props: { dai: detailAnimeInfo }) {
 
   return (
     <>
-      <Card className={classes.root}>
+      <Card>
         <CardActionArea>
           {cm}
           <CardContent>
