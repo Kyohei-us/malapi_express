@@ -1,45 +1,23 @@
 import {
   Backdrop,
+  Box,
   Card,
   CardActionArea,
   CardActions,
   CardContent,
   CardMedia,
-  createStyles,
-  makeStyles,
-  Theme,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { detailAnimeInfo } from "../common/types";
 import useFetchAnimeInfo from "../hooks/useFetchAnimeInfo";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 import { RootState } from "../store";
-import {
-  openTrailerOverlay,
-  singleDetailInfo,
-} from "../store/action/singleDetailInfo";
+import { openTrailerOverlay } from "../store/action/singleDetailInfo";
 import { getYoutubeVideoID } from "../utils/youtubeURLtoEmbed";
 import AnimeSingleDetail from "./animeSingleDetail";
-import SearchAnimeWithMAL from "./searchAnimeWithMAL";
+import SearchAnimeWithAnilist from "./searchAnimeWithAnilist";
 import ShowTop from "./showTop";
-
-// const useStyles = makeStyles((theme) =>
-//   createStyles({
-//     root: {
-//       textAlign: "center",
-//     },
-//     backdrop: {
-//       zIndex: theme.zIndex.drawer + 1,
-//       color: "#fff",
-//     },
-//     trailerCard: {
-//       width: 500,
-//     },
-//     trailerMedia: {
-//       height: 500,
-//     },
-//   })
-// );
 
 export default function SearchOrDetail() {
   // read state from redux
@@ -49,6 +27,10 @@ export default function SearchOrDetail() {
 
   const dai = useSelector((state: RootState) => state.singleDetailInfo);
 
+  const searchByQueryState = useSelector(
+    (state: RootState) => state.searchByQuery
+  );
+
   // get detailAnimeInfo from custom hooks
   const detailAnimeInfo: detailAnimeInfo = useFetchAnimeInfo(
     showSingleDetailState.malidForDetail
@@ -56,6 +38,8 @@ export default function SearchOrDetail() {
 
   // declare dispatch function
   const dispatch = useDispatch();
+
+  const isPageWide = useMediaQuery(`(min-width:426px)`);
 
   // render trail only if its url is fetched and watch trailer is clicked
   const trailer =
@@ -75,9 +59,9 @@ export default function SearchOrDetail() {
       <></>
     );
 
-  // show detail for singlee work (anime, manga)
+  // show detail for single work (anime, manga)
   const singleDetail = (
-    <>
+    <Box width="90%">
       <AnimeSingleDetail dai={dai.singleDetailInfo} />
       <Backdrop
         open={dai.openTrailerOverlay}
@@ -85,19 +69,42 @@ export default function SearchOrDetail() {
       >
         {trailer}
       </Backdrop>
+    </Box>
+  );
+
+  // render main part by media query and anime search query
+  const renderMain = showSingleDetailState.showSingleDetail ? (
+    singleDetail
+  ) : isPageWide ? (
+    searchByQueryState.query ? (
+      <>
+        <SearchAnimeWithAnilist />
+      </>
+    ) : (
+      <>
+        <ShowTop />
+      </>
+    )
+  ) : searchByQueryState.query ? (
+    <>
+      <SearchAnimeWithAnilist withTextField={true} />
+    </>
+  ) : (
+    <>
+      <SearchAnimeWithAnilist withTextField={true} />
+      <ShowTop />
     </>
   );
 
   return (
-    <div>
-      {showSingleDetailState.showSingleDetail ? (
-        singleDetail
-      ) : (
-        <>
-          <ShowTop />
-          <SearchAnimeWithMAL numberForResults={10} />
-        </>
-      )}
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+      }}
+    >
+      {renderMain}
+    </Box>
   );
 }

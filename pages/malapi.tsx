@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
+import MyAppBar from "../components/myAppBar";
 import SearchOrDetail from "../components/searchOrDetail";
 
 export default function malapi() {
@@ -19,12 +20,15 @@ export default function malapi() {
         <Head>
           <title>MAL api</title>
         </Head>
-        <Link href="/">
-          <h2>
-            <a>Back to home</a>
-          </h2>
-        </Link>
-        <SearchOrDetail />
+        <main>
+          <MyAppBar pageName="Anime" />
+          <Link href="/">
+            <h2>
+              <a>Back to home</a>
+            </h2>
+          </Link>
+          <SearchOrDetail />
+        </main>
       </div>
     </div>
   );

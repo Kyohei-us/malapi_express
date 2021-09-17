@@ -2,8 +2,6 @@ import Head from "next/head";
 import Link from "next/link";
 import React from "react";
 import MyAppBar from "../components/myAppBar";
-import SearchAnimeWithAnilist from "../components/searchAnimeWithAnilist";
-import styles from "../styles/Home.module.css";
 
 const Home = () => {
   return (
@@ -23,13 +21,11 @@ const Home = () => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <main className={styles.main}>
-          <MyAppBar />
+        <main>
+          <MyAppBar pageName="Top Page" />
           <Link href="/malapi">
-            <h2>Click here and Search Anime!</h2>
+            <h2>Check out top Anime!</h2>
           </Link>
-          <SearchAnimeWithAnilist />
-          {/* <GetDetailWithAnilist /> */}
         </main>
       </div>
     </div>

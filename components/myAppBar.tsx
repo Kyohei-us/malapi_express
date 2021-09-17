@@ -11,22 +11,25 @@ import {
   AppBar,
   Box,
   Button,
-  Divider,
+  Drawer,
+  FormControl,
   IconButton,
-  InputBase,
+  InputAdornment,
+  InputLabel,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  OutlinedInput,
   styled,
   Toolbar,
   Typography,
 } from "@mui/material";
+import Link from "next/link";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
@@ -39,31 +42,8 @@ const Search = styled("div")(({ theme }) => ({
   },
 }));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
-
-export default function MyAppBar() {
+export default function MyAppBar(props: { pageName: string }) {
+  const { pageName } = props;
   const dispatch = useDispatch();
 
   let timeout: any;
@@ -100,21 +80,16 @@ export default function MyAppBar() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
+        {["Search"].map((text, index) => (
+          <ListItem button component="a" key={text} href="/malapi">
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              {index === 0 ? (
+                <SearchIcon />
+              ) : index % 2 === 0 ? (
+                <InboxIcon />
+              ) : (
+                <MailIcon />
+              )}
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
@@ -127,25 +102,42 @@ export default function MyAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
         <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleDrawer("left", true)}
+          >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6">Top Page</Typography>
+          <React.Fragment key={"left"}>
+            <Drawer
+              anchor={"left"}
+              open={isSidemenuOpen}
+              onClose={toggleDrawer("left", false)}
+            >
+              {list("left")}
+            </Drawer>
+          </React.Fragment>
+          <Typography variant="h6">{pageName}</Typography>
           {isPageWide && (
             <>
               <Search>
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ "aria-label": "search" }}
-                  onChange={(q) => queryOnChange(q.target.value)}
-                />
+                <FormControl fullWidth sx={{ m: 1 }}>
+                  <InputLabel>Search</InputLabel>
+                  <OutlinedInput
+                    onChange={(e) => queryOnChange(e.target.value)}
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    }
+                    label="Search"
+                  />
+                </FormControl>
               </Search>
             </>
           )}
-          <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
     </Box>

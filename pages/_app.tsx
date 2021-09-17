@@ -1,12 +1,11 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { CssBaseline, ThemeProvider } from "@material-ui/core";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";
 import { Provider } from "react-redux";
 import { theme } from "../src/theme";
 import store from "../store";
-import "../styles/globals.css";
 
 const client = new ApolloClient({
   uri: `https://graphql.anilist.co`,

@@ -59,7 +59,7 @@ export default function ShowTop() {
           </Button>
         </Box>
       </Box>
-      <Box m={2}>
+      <Box m={2} maxWidth="90%">
         {showAll ? (
           <AnimeImageCardWrapper baiList={topBAIlist} />
         ) : (

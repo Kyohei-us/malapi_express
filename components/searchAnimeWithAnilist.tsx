@@ -7,8 +7,10 @@ import { RootState } from "../store";
 import { searchByQuery } from "../store/action/searchByQuery";
 import SAICWAwrapper from "./animeImageCardWithAnilist/SAICWAwrapper";
 
-export default function SearchAnimeWithAnilist() {
-  // const [queryStr, setQueryStr] = useState("");
+export default function SearchAnimeWithAnilist(props: {
+  withTextField?: boolean;
+}) {
+  const { withTextField } = props;
   const query = useSelector((state: RootState) => state.searchByQuery.query);
   const { loading, error, data } = useQuery<AnimeData, MediaVars>(GET_ANIME, {
     variables: { q: query },
@@ -35,21 +37,32 @@ export default function SearchAnimeWithAnilist() {
     data && data.Page && data.Page.media && !loading ? data.Page.media : [];
 
   return (
-    <>
-      {/* <div
-        style={{
-          margin: "16px",
-        }}
-      >
-        <TextField
-          type="search"
-          placeholder="type anime name"
-          onChange={(e) => queryOnChange(e.target.value)}
-        />
-      </div> */}
+    <Box
+      maxWidth="90%"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
+      {withTextField ? (
+        <div
+          style={{
+            margin: "16px",
+          }}
+        >
+          <TextField
+            type="search"
+            placeholder="type anime name"
+            onChange={(e) => queryOnChange(e.target.value)}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
       <div>
         <SAICWAwrapper baiList={medium} />
       </div>
-    </>
+    </Box>
   );
 }
