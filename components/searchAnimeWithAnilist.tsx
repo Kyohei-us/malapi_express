@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { Box, TextField } from "@material-ui/core";
+import { Box, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AnimeData, GET_ANIME, MediaVars } from "../src/queries/getAnime";
@@ -7,8 +7,10 @@ import { RootState } from "../store";
 import { searchByQuery } from "../store/action/searchByQuery";
 import SAICWAwrapper from "./animeImageCardWithAnilist/SAICWAwrapper";
 
-export default function SearchAnimeWithAnilist() {
-  // const [queryStr, setQueryStr] = useState("");
+export default function SearchAnimeWithAnilist(props: {
+  withTextField?: boolean;
+}) {
+  const { withTextField } = props;
   const query = useSelector((state: RootState) => state.searchByQuery.query);
   const { loading, error, data } = useQuery<AnimeData, MediaVars>(GET_ANIME, {
     variables: { q: query },
@@ -35,21 +37,32 @@ export default function SearchAnimeWithAnilist() {
     data && data.Page && data.Page.media && !loading ? data.Page.media : [];
 
   return (
-    <>
-      {/* <div
-        style={{
-          margin: "16px",
-        }}
-      >
-        <TextField
-          type="search"
-          placeholder="type anime name"
-          onChange={(e) => queryOnChange(e.target.value)}
-        />
-      </div> */}
+    <Box
+      maxWidth="90%"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
+      {withTextField ? (
+        <div
+          style={{
+            margin: "16px",
+          }}
+        >
+          <TextField
+            type="search"
+            placeholder="type anime name"
+            onChange={(e) => queryOnChange(e.target.value)}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
       <div>
         <SAICWAwrapper baiList={medium} />
       </div>
-    </>
+    </Box>
   );
 }

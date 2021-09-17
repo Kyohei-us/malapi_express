@@ -10,30 +10,29 @@ import {
   TextField,
   Theme,
   Typography,
-} from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
+} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import AnimeImageCard from "./animeImageCard/animeImageCard";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    sliderSearchResult: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      flexDirection: "column",
-      padding: "50px",
-      backgroundColor: "#116466",
-    },
-    root: {
-      textAlign: "center",
-    },
-  })
-);
+// const useStyles = makeStyles((theme: Theme) =>
+//   createStyles({
+//     sliderSearchResult: {
+//       display: "flex",
+//       justifyContent: "center",
+//       alignItems: "center",
+//       flexDirection: "column",
+//       padding: "50px",
+//       backgroundColor: "#116466",
+//     },
+//     root: {
+//       textAlign: "center",
+//     },
+//   })
+// );
 
 export default function SearchAnimeWithMAL(props: {
   numberForResults: number;
 }) {
-  const classes = useStyles();
   const { numberForResults } = props;
   const [query, setQuery] = useState("");
 
@@ -66,7 +65,7 @@ export default function SearchAnimeWithMAL(props: {
   };
 
   return (
-    <Box className={classes.root}>
+    <Box>
       <TextField
         type="search"
         placeholder="type anime name"
@@ -79,7 +78,7 @@ export default function SearchAnimeWithMAL(props: {
           ),
         }}
       />
-      <div className={classes.sliderSearchResult}>
+      <div>
         <Typography id="discrete-slider" gutterBottom>
           Number of results to show
         </Typography>

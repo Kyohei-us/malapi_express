@@ -1,74 +1,49 @@
-import {
-  Toolbar,
-  IconButton,
-  Typography,
-  Button,
-  AppBar,
-  createStyles,
-  makeStyles,
-  Theme,
-  alpha,
-  InputBase,
-} from "@material-ui/core";
-import React from "react";
-import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
+import React, { useState } from "react";
+import MailIcon from "@mui/icons-material/Mail";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch } from "react-redux";
 import { searchByQuery } from "../store/action/searchByQuery";
+import { useMediaQuery } from "../hooks/useMediaQuery";
+import {
+  alpha,
+  AppBar,
+  Box,
+  Button,
+  Drawer,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  OutlinedInput,
+  styled,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import Link from "next/link";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
-    },
-    search: {
-      position: "relative",
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: alpha(theme.palette.common.white, 0.15),
-      "&:hover": {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-      },
-      marginRight: theme.spacing(2),
-      marginLeft: 0,
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        marginLeft: theme.spacing(3),
-        width: "auto",
-      },
-    },
-    searchIcon: {
-      padding: theme.spacing(0, 2),
-      height: "100%",
-      position: "absolute",
-      pointerEvents: "none",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    inputRoot: {
-      color: "inherit",
-    },
-    inputInput: {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("md")]: {
-        width: "20ch",
-      },
-    },
-  })
-);
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(3),
+    width: "auto",
+  },
+}));
 
-export default function MyAppBar() {
-  const classes = useStyles();
+export default function MyAppBar(props: { pageName: string }) {
+  const { pageName } = props;
   const dispatch = useDispatch();
 
   let timeout: any;
@@ -81,38 +56,90 @@ export default function MyAppBar() {
     debounce(() => dispatch(searchByQuery(query)), 1 * 1000);
   };
 
+  const isPageWide = useMediaQuery(`(min-width:426px)`);
+
+  const [isSidemenuOpen, setIsSidemenuOpen] = useState(false);
+
+  const toggleDrawer = (anchor: string, open: boolean) => (event: any) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setIsSidemenuOpen(open);
+  };
+
+  const list = (anchor: string) => (
+    <Box
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <List>
+        {["Search"].map((text, index) => (
+          <ListItem button component="a" key={text} href="/malapi">
+            <ListItemIcon>
+              {index === 0 ? (
+                <SearchIcon />
+              ) : index % 2 === 0 ? (
+                <InboxIcon />
+              ) : (
+                <MailIcon />
+              )}
+            </ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
   return (
-    <div className={classes.root}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
         <Toolbar>
           <IconButton
             edge="start"
-            className={classes.menuButton}
             color="inherit"
             aria-label="menu"
+            onClick={toggleDrawer("left", true)}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Top Page
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-              onChange={(e) => queryOnChange(e.target.value)}
-            />
-          </div>
-          <Button color="inherit">Login</Button>
+          <React.Fragment key={"left"}>
+            <Drawer
+              anchor={"left"}
+              open={isSidemenuOpen}
+              onClose={toggleDrawer("left", false)}
+            >
+              {list("left")}
+            </Drawer>
+          </React.Fragment>
+          <Typography variant="h6">{pageName}</Typography>
+          {isPageWide && (
+            <>
+              <Search>
+                <FormControl fullWidth sx={{ m: 1 }}>
+                  <InputLabel>Search</InputLabel>
+                  <OutlinedInput
+                    onChange={(e) => queryOnChange(e.target.value)}
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    }
+                    label="Search"
+                  />
+                </FormControl>
+              </Search>
+            </>
+          )}
         </Toolbar>
       </AppBar>
-    </div>
+    </Box>
   );
 }
