@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import React from "react";
 import MyAppBar from "../components/myAppBar";
+import SearchOrDetail from "../components/searchOrDetail";
 
 const Home = () => {
   return (
@@ -26,6 +27,7 @@ const Home = () => {
           <Link href="/malapi">
             <h2>Check out top Anime!</h2>
           </Link>
+          <SearchOrDetail />
         </main>
       </div>
     </div>
